@@ -1,14 +1,12 @@
 ﻿using System;
 
-namespace CBUI.Controls
+namespace CBUI
 {
-	public interface IStyled : IControl
+	public interface IStyled
 	{
 		BorderStyle Border { get; set; }
 
 		ConsoleColor? Background { get; set; }
 		ConsoleColor? Foreground { get; set; }
-
-		Thickness Padding { get; set; }
 	}
 }

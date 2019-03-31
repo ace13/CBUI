@@ -2,25 +2,27 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CBUI.Controls
+namespace CBUI
 {
-	public static class ControlExtensions
+	public static class ItemExtensions
 	{
-		public static IControl GetTopmostParent(this IControl control)
+		public static IItem GetTopmostParent(this IItem control)
 		{
-			return (control.Parents ?? new IControl[0]).LastOrDefault() ?? control;
+			return control?.Parent ?? control;
 		}
 
-		public static IEnumerable<IControl> GetSelfAndParents(this IControl control)
+		public static IEnumerable<IItem> GetSelfAndParents(this IItem control)
 		{
-			yield return control;
-
-			if (control.Parents != null)
-				foreach (var p in control.Parents)
-					yield return p;
+			var cur = control;
+			
+			while (cur != null)
+			{
+				yield return cur;
+				cur = cur.Parent;
+			}
 		}
 
-		public static IEnumerable<IControl> GetSelfAndChildren(this IControl control)
+		public static IEnumerable<IItem> GetSelfAndChildren(this IItem control)
 		{
 			yield return control;
 
@@ -48,7 +50,7 @@ namespace CBUI.Controls
 		}
 
 
-		public static ConsoleColor GetEffectiveBackground(this IControl control)
+		public static ConsoleColor GetEffectiveBackground(this IItem control)
 		{
 			ConsoleColor? background = control.GetSelfAndParents()
 				.Where(p => (p is IStyled))
@@ -58,7 +60,7 @@ namespace CBUI.Controls
 			return background.HasValue ? background.Value : ConsoleColor.Black;
 		}
 
-		public static ConsoleColor GetEffectiveForeground(this IControl control)
+		public static ConsoleColor GetEffectiveForeground(this IItem control)
 		{
 			ConsoleColor? foreground = control.GetSelfAndParents()
 				.Where(p => (p is IStyled))
@@ -66,16 +68,6 @@ namespace CBUI.Controls
 				.FirstOrDefault(f => f.HasValue);
 
 			return foreground.HasValue ? foreground.Value : ConsoleColor.White;
-		}
-
-		public static bool IsEffectivelyEnabled(this IControl control)
-		{
-			return control.GetSelfAndParents().All(p => p.IsEnabled);
-		}
-
-		public static bool IsEffectivelyVisible(this IControl control)
-		{
-			return control.GetSelfAndParents().All(p => p.IsVisible);
 		}
 	}
 }

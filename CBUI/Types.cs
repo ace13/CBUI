@@ -3,6 +3,7 @@
 	public enum BorderStyle
 	{
 		None,
+
 		Filled,
 		BlockOutline,
 		Outline,
@@ -25,27 +26,35 @@
 		Dark
 	}
 
-	public enum SizingHint
-	{
-		FixedSize,
-		ShrinkToFit,
-		FillAvailable
+	public enum Align {
+		Auto,
+
+		Stretch,
+		Center,
+		Start,
+		End,
+
+		SpaceBetween,
+		SpaceAround,
+		SpaceEvenly
 	}
 
-	public enum HorizontalAlignment
-	{
-		Stretch,
-
-		Left,
-		Center,
-		Right
+	public enum Position {
+		Relative,
+		Absolute
 	}
-	public enum VerticalAlignment
-	{
-		Stretch,
 
-		Top,
-		Center,
-		Bottom
+	public enum Direction {
+		Row,
+		RowReverse,
+		Column,
+		ColumnReverse
+	}
+
+	public enum Wrap {
+		None,
+
+		Wrap,
+		WrapReverse
 	}
 }
